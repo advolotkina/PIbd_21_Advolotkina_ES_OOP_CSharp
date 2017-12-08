@@ -1,6 +1,6 @@
 ﻿using System.Drawing;
 
-namespace ULSTU_OOP_Charp_Lab2
+namespace ULSTU_OOP_SCharp_Lab3
 {
     public interface IAnimal
     {
@@ -17,5 +17,9 @@ namespace ULSTU_OOP_Charp_Lab2
         void breath();
 
         void makeNoise();
+
+        void setMainColor(Color color);
+
+        string getInfo();
     }
 }
