@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Drawing;
-namespace ULSTU_OOP_Charp_Lab2
+namespace ULSTU_OOP_SCharp_Lab3
 {
     public class TigerShark : Shark
     {
@@ -12,10 +12,24 @@ namespace ULSTU_OOP_Charp_Lab2
             this.dopColor = dopColor;
             this.humansKilled = 0;
         }
+
+        public TigerShark(string info) : base(info)
+        {
+            string[] strs = info.Split(';');
+            if(strs.Length == 6)
+            {
+                MaxNumberOfVictims = Convert.ToInt32(strs[0]);
+                HoursNeededToSleep = Convert.ToInt32(strs[1]);
+                Weight = Convert.ToInt32(strs[2]);
+                BodyPattern = Color.FromName(strs[3]);
+                humansKilled = Convert.ToInt32(strs[4]);
+                dopColor = Color.FromName(strs[5]);
+            }
+        }
         
         public int HumansKilled { get => humansKilled; set => humansKilled = value; }
 
-        protected override void drawShark(Graphics g)
+        public override void drawShark(Graphics g)
         {
             base.drawShark(g);
             SolidBrush brush = new SolidBrush(dopColor);
@@ -49,6 +63,17 @@ namespace ULSTU_OOP_Charp_Lab2
                 Random rand = new Random();
                 HumansKilled = rand.Next(2)+HumansKilled;
             }
+        }
+
+        public void setDopColor(Color color)
+        {
+            dopColor = color;
+        }
+
+        public override string getInfo()
+        {
+            return MaxNumberOfVictims + ";" + HoursNeededToSleep + ";" + Weight + ";" + BodyPattern.Name + ";" + humansKilled + ";" + dopColor.Name;
+
         }
     }
 }
