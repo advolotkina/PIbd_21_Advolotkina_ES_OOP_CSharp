@@ -1,6 +1,6 @@
 ﻿using System.Drawing;
 
-namespace ULSTU_OOP_Charp_Lab2
+namespace ULSTU_OOP_SCharp_Lab3
 {
     public abstract class CartilaginousFish : IAnimal
     {
@@ -91,5 +91,10 @@ namespace ULSTU_OOP_Charp_Lab2
         {
 
         }
+        public virtual void setMainColor(Color color)
+        {
+            BodyPattern = color;
+        }
+
     }
 }

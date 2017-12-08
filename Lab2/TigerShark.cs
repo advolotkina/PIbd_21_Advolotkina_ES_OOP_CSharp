@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Drawing;
-namespace ULSTU_OOP_Charp_Lab2
+namespace ULSTU_OOP_SCharp_Lab3
 {
     public class TigerShark : Shark
     {
@@ -15,7 +15,7 @@ namespace ULSTU_OOP_Charp_Lab2
         
         public int HumansKilled { get => humansKilled; set => humansKilled = value; }
 
-        protected override void drawShark(Graphics g)
+        public override void drawShark(Graphics g)
         {
             base.drawShark(g);
             SolidBrush brush = new SolidBrush(dopColor);
@@ -49,6 +49,11 @@ namespace ULSTU_OOP_Charp_Lab2
                 Random rand = new Random();
                 HumansKilled = rand.Next(2)+HumansKilled;
             }
+        }
+
+        public void setDopColor(Color color)
+        {
+            dopColor = color;
         }
     }
 }
