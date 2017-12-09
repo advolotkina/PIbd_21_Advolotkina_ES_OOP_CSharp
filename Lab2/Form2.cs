@@ -10,31 +10,43 @@ namespace ULSTU_OOP_SCharp_Lab3
         public Form2()
         {
             InitializeComponent();
-            ocean = new Ocean();
+            ocean = new Ocean(5);
+            for (int i = 1; i < 6; i++)
+            {
+                listBox1.Items.Add("Уровень " + i);
+            }
+            listBox1.SelectedIndex = ocean.getCurrentLevel;
+
             Draw();
         }
      
         private void Draw()
         {
-            Bitmap bmp = new Bitmap(pictureBox1.Width, pictureBox1.Height);
-            Graphics gr = Graphics.FromImage(bmp);
-            ocean.Draw(gr, pictureBox1.Width, pictureBox1.Height);
-            pictureBox1.Image = bmp;
+            if (listBox1.SelectedIndex > -1)
+            { 
+                Bitmap bmp = new Bitmap(pictureBox1.Width, pictureBox1.Height);
+                Graphics gr = Graphics.FromImage(bmp);
+                ocean.Draw(gr);
+                pictureBox1.Image = bmp;
+            }
+
         }
 
         private void button1_Click_1(object sender, EventArgs e)
         {
+
             ColorDialog cd = new ColorDialog();
             if (cd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
                 var fish = new Shark(10, 10, 300, cd.Color);
                 int place = ocean.PutFishInOcean(fish);
-               
-                Draw();
-                MessageBox.Show("Ваше место: " + place);
+
+               Draw();
+               MessageBox.Show("Ваше место: " + place);
 
             }
         }
+
 
         private void button2_Click_1(object sender, EventArgs e)
         {
@@ -54,24 +66,47 @@ namespace ULSTU_OOP_SCharp_Lab3
 
         private void button3_Click_1(object sender, EventArgs e)
         {
-            if (maskedTextBox1.Text != "" )
+            if (listBox1.SelectedIndex > -1)
             {
-                var fish = ocean.GetFishFromOcean(Convert.ToInt32(maskedTextBox1.Text));
-                if (fish != null)
+                string level = listBox1.Items[listBox1.SelectedIndex].ToString();
+                if (maskedTextBox1.Text != "")
                 {
-                Bitmap bmp = new Bitmap(pictureBox2.Width, pictureBox2.Height);
-                Graphics gr = Graphics.FromImage(bmp);
-                fish.setPosition(40, 20);
-                fish.draw(gr);
-                pictureBox2.Image = bmp;
-                Draw();
+                    IAnimal fish = ocean.GetFishFromOcean(Convert.ToInt32(maskedTextBox1.Text));
+                    if (fish != null)
+                    {
+                        Bitmap bmp = new Bitmap(pictureBox2.Width, pictureBox2.Height);
+                        Graphics gr = Graphics.FromImage(bmp);
+                        fish.setPosition(5, 5);
+                        fish.draw(gr);
+                        pictureBox2.Image = bmp;
+                        Draw();
+                    }
+                    else
+                    {
+                        MessageBox.Show("Извинте, на этом месте нет акулы");
+                    }
                 }
-                
             }
+
         }
         private void pictureBox2_Click(object sender, EventArgs e)
         {
 
         }
+
+        private void buttonDown_Click(object sender, EventArgs e)
+        {
+            ocean.LevelDown();
+            listBox1.SelectedIndex = ocean.getCurrentLevel;
+            Draw();
+        }
+
+        private void buttonUp_Click(object sender, EventArgs e)
+        {
+            ocean.LevelUp();
+            listBox1.SelectedIndex = ocean.getCurrentLevel;
+            Draw();
+        }
+
     }
 }

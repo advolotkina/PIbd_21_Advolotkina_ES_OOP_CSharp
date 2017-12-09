@@ -1,4 +1,6 @@
-﻿using System.Drawing;
+﻿using System;
+using System.Collections.Generic;
+using System.Drawing;
 
 namespace ULSTU_OOP_SCharp_Lab3
 {
@@ -6,25 +8,59 @@ namespace ULSTU_OOP_SCharp_Lab3
     {
         ClassArray<IAnimal> ocean;
 
+        List<ClassArray<IAnimal>> oceanLevels;
+
+        int currentLevel;
+
         int countPlaces = 20;
 
         int placeSizeWidth = 130;
 
         int placeSizeHeight = 100;
 
-        public Ocean()
+        public int getCurrentLevel
         {
-            ocean = new ClassArray<IAnimal>(countPlaces, null);
+            get
+            {
+                return currentLevel;
+            }
+        }
+
+        public Ocean(int countLevels)
+        {
+            oceanLevels = new List<ClassArray<IAnimal>>();
+            for(int i = 0; i < countLevels;i++)
+            {
+                ocean = new ClassArray<IAnimal>(countPlaces, null);
+                oceanLevels.Add(ocean);
+            }
+            
+        }
+
+        public void LevelUp()
+        {
+            if(currentLevel + 1 < oceanLevels.Count)
+            {
+                currentLevel++;
+            }
+        }
+
+        public void LevelDown()
+        {
+            if (currentLevel > 0)
+            {
+                currentLevel--;
+            }
         }
 
         public int PutFishInOcean(IAnimal fish)
         {
-            return ocean + fish;
+            return oceanLevels[currentLevel] + fish;
         }
 
         public IAnimal GetFishFromOcean(int n)
         {
-            return ocean - n;
+            return oceanLevels[currentLevel] - n;
         }
 
         private void DrawOcean(Graphics g)
@@ -41,12 +77,12 @@ namespace ULSTU_OOP_SCharp_Lab3
             }
         }
 
-        public void Draw(Graphics g, int width, int height)
+        public void Draw(Graphics g)
         {
             DrawOcean(g);
             for(int i = 0; i < countPlaces; i++)
             {
-                var fish = ocean.getObject(i);
+                var fish = oceanLevels[currentLevel][i];
                 if (fish != null)
                 {
                     fish.setPosition(15+(int)i/5*placeSizeWidth+5,i%5*placeSizeHeight+15);
@@ -54,5 +90,6 @@ namespace ULSTU_OOP_SCharp_Lab3
                 }
             }
         }
+
     }
 }
