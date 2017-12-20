@@ -3,6 +3,7 @@ using System.Windows.Forms;
 
 namespace ULSTU_OOP_SCharp_Lab3
 {
+    public delegate void myDel(ULSTU_OOP_SCharp_Lab3.IAnimal shark);
     static class Program
     {
         /// <summary>
