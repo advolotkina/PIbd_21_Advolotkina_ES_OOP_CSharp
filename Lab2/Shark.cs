@@ -2,7 +2,7 @@
 using System.Drawing;
 using System.Drawing.Drawing2D;
 
-namespace ULSTU_OOP_Charp_Lab2
+namespace ULSTU_OOP_SCharp_Lab3
 {
    public class Shark : CartilaginousFish
     {
@@ -18,12 +18,35 @@ namespace ULSTU_OOP_Charp_Lab2
             startPosX = rand.Next(30, 50);
             startPosY = rand.Next(90, 100);
         }
+
+        public Shark(string info)
+        {
+            string[] strs = info.Split(';');
+            if(strs.Length == 4)
+            {
+                MaxNumberOfVictims = Convert.ToInt32(strs[0]);
+                HoursNeededToSleep = Convert.ToInt32(strs[1]);
+                Weight = Convert.ToInt32(strs[2]);
+                BodyPattern = Color.FromName(strs[3]);
+            }
+            this.sleptHours = 0;
+            this.victims = 0;
+            Random rand = new Random();
+            startPosX = rand.Next(30, 50);
+            startPosY = rand.Next(90, 100);
+        }
+
+        public override string getInfo()
+        {
+            return MaxNumberOfVictims + ";" + HoursNeededToSleep + ";" + Weight + ";" + BodyPattern.Name;
+        }
+
         public override void draw(Graphics g)
         {
             drawShark(g);
         }
 
-        protected virtual void drawShark(Graphics g)
+        public virtual void drawShark(Graphics g)
         {
             SolidBrush brush = new SolidBrush(BodyPattern);
             PointF point1 = new PointF(startPosX, startPosY + 11);
