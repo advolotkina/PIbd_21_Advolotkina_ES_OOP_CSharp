@@ -7,6 +7,8 @@ namespace ULSTU_OOP_SCharp_Lab3
     public partial class Form2 : Form
     {
         Ocean ocean;
+
+        FormSelectShark form;
         public Form2()
         {
             InitializeComponent();
@@ -34,16 +36,25 @@ namespace ULSTU_OOP_SCharp_Lab3
 
         private void button1_Click_1(object sender, EventArgs e)
         {
+            form = new FormSelectShark();
+            form.AddEvent(AddShark);
+            form.Show();
+        }
 
-            ColorDialog cd = new ColorDialog();
-            if (cd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+        private void AddShark(IAnimal shark)
+        {
+            if (shark != null)
             {
-                var fish = new Shark(10, 10, 300, cd.Color);
-                int place = ocean.PutFishInOcean(fish);
-
-               Draw();
-               MessageBox.Show("Ваше место: " + place);
-
+                int place = ocean.PutFishInOcean(shark);
+                if (place > -1)
+                {
+                    Draw();
+                    MessageBox.Show("Ваше место: " + place);
+                }
+                else
+                {
+                    MessageBox.Show("Акулу не удалось выпустить");
+                }
             }
         }
 
@@ -107,6 +118,5 @@ namespace ULSTU_OOP_SCharp_Lab3
             listBox1.SelectedIndex = ocean.getCurrentLevel;
             Draw();
         }
-
     }
 }
