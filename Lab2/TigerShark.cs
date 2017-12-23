@@ -12,6 +12,20 @@ namespace ULSTU_OOP_SCharp_Lab3
             this.dopColor = dopColor;
             this.humansKilled = 0;
         }
+
+        public TigerShark(string info) : base(info)
+        {
+            string[] strs = info.Split(';');
+            if(strs.Length == 6)
+            {
+                MaxNumberOfVictims = Convert.ToInt32(strs[0]);
+                HoursNeededToSleep = Convert.ToInt32(strs[1]);
+                Weight = Convert.ToInt32(strs[2]);
+                BodyPattern = Color.FromName(strs[3]);
+                humansKilled = Convert.ToInt32(strs[4]);
+                dopColor = Color.FromName(strs[5]);
+            }
+        }
         
         public int HumansKilled { get => humansKilled; set => humansKilled = value; }
 
@@ -54,6 +68,12 @@ namespace ULSTU_OOP_SCharp_Lab3
         public void setDopColor(Color color)
         {
             dopColor = color;
+        }
+
+        public override string getInfo()
+        {
+            return MaxNumberOfVictims + ";" + HoursNeededToSleep + ";" + Weight + ";" + BodyPattern.Name + ";" + humansKilled + ";" + dopColor.Name;
+
         }
     }
 }
