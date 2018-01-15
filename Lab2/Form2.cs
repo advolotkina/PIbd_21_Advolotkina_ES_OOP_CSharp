@@ -35,6 +35,7 @@ namespace ULSTU_OOP_SCharp_Lab3
                 ocean.Draw(gr);
                 pictureBox1.Image = bmp;
             }
+
         }
 
         private void button1_Click_1(object sender, EventArgs e)
@@ -170,6 +171,12 @@ namespace ULSTU_OOP_SCharp_Lab3
                 Draw();
             }
 
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            ocean.Sort();
+            Draw();
         }
     }
 }

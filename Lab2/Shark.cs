@@ -4,7 +4,7 @@ using System.Drawing.Drawing2D;
 
 namespace ULSTU_OOP_SCharp_Lab3
 {
-   public class Shark : CartilaginousFish
+   public class Shark : CartilaginousFish, IComparable<Shark>, IEquatable<Shark>
     {
         public Shark(int maxNumberOfVictims, int hoursNeededToSleep, double weight, Color color)
         {
@@ -90,6 +90,79 @@ namespace ULSTU_OOP_SCharp_Lab3
             Random rand = new Random();
             startPosY = startPosY + 10*rand.Next(-2,2);
             draw(g);
+        }
+
+        public int CompareTo(Shark other)
+        {
+            if (other == null)
+            {
+                return 1;
+            }
+            if (MaxNumberOfVictims != other.MaxNumberOfVictims)
+            {
+                return MaxNumberOfVictims.CompareTo(other.MaxNumberOfVictims);
+            }
+            if (HoursNeededToSleep != other.HoursNeededToSleep)
+            {
+                return HoursNeededToSleep.CompareTo(other.HoursNeededToSleep);
+            }
+            if (Weight != other.Weight)
+            {
+                return Weight.CompareTo(other.Weight);
+            }
+            if (BodyPattern != other.BodyPattern)
+            {
+                return BodyPattern.Name.CompareTo(other.BodyPattern.Name);
+            }
+            return 0;
+        }
+
+        public bool Equals(Shark other)
+        {
+            if(other == null)
+            {
+                return false;
+            }
+
+            if (MaxNumberOfVictims != other.MaxNumberOfVictims)
+            {
+                return false;
+            }
+            if (HoursNeededToSleep != other.HoursNeededToSleep)
+            {
+                return false;
+            }
+            if (Weight != other.Weight)
+            {
+                return false;
+            }
+            if (BodyPattern != other.BodyPattern)
+            {
+                return false;
+            }
+            return true;
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (obj == null)
+            {
+                return false;
+            }
+            Shark sharkObj = obj as Shark;
+            if(sharkObj == null)
+            {
+                return false;
+            }
+            else
+            {
+                return Equals(sharkObj);
+            }
+        }
+
+        public override int GetHashCode()
+        {
+            return MaxNumberOfVictims.GetHashCode();
         }
 
         public override double Weight
