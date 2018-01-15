@@ -21,7 +21,7 @@ namespace ULSTU_OOP_SCharp_Lab3
         {
             if(p.places.Count == p.maxCount)
             {
-                return -1;
+                throw new OceanOverflowExcetion();
             }
             for(int i = 0; i < p.places.Count; i++)
             {
@@ -43,7 +43,7 @@ namespace ULSTU_OOP_SCharp_Lab3
                 p.places.Remove(index);
                 return fish;
             }
-            return p.defaultValue;
+            throw new OceanIndexOutOfRangeException();
         }
 
         private bool CheckFreePlace(int index)
@@ -62,5 +62,6 @@ namespace ULSTU_OOP_SCharp_Lab3
                 return defaultValue;
             }
         }
+
     }
 }

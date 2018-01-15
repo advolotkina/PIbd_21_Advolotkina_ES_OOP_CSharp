@@ -165,7 +165,7 @@ namespace ULSTU_OOP_SCharp_Lab3
                 }
                 else
                 {
-                    return false;
+                    throw new FileFormatException();
                 }
                 int counter = -1;
                 for(int i = 1; i < strs.Length; ++i)
@@ -180,7 +180,7 @@ namespace ULSTU_OOP_SCharp_Lab3
                         int number = oceanLevels[counter] + shark;
                         if(number == -1)
                         {
-                            return false;
+                            throw new FileFormatException();
                         }
                     } else if (strs[i].Split(':')[0] == "TigerShark")
                     {
@@ -188,7 +188,7 @@ namespace ULSTU_OOP_SCharp_Lab3
                         int number = oceanLevels[counter] + shark;
                         if (number == -1)
                         {
-                            return false;
+                            throw new FileFormatException();
                         }
                     }
                 }

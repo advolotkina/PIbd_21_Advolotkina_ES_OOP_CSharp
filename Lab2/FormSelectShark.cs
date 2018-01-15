@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NLog;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -42,9 +43,12 @@ namespace ULSTU_OOP_SCharp_Lab3
             }
         }
 
+        private Logger log;
+
         public FormSelectShark()
         {
             InitializeComponent();
+            log = LogManager.GetCurrentClassLogger();
             panelBlack.MouseDown += panelColor_MouseDown;
             panelOrange.MouseDown += panelColor_MouseDown;
             panelGray.MouseDown += panelColor_MouseDown;
@@ -82,9 +86,11 @@ namespace ULSTU_OOP_SCharp_Lab3
             {
                 case "Акула":
                     shark = new Shark(10, 10, 300, Color.White);
+                    log.Info("Добавлена акула");
                     break;
                 case "Тигровая акула":
                     shark = new TigerShark(10, 10, 300, Color.White,  Color.Black);
+                    log.Info("Добавлена тигровая акула");
                     break;
             }
             DrawShark();
