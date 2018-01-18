@@ -20,5 +20,6 @@ namespace ULSTU_OOP_SCharp_Lab3
 
         void setMainColor(Color color);
 
+        string getInfo();
     }
 }

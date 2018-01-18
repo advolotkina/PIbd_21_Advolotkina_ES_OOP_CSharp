@@ -31,7 +31,6 @@ namespace ULSTU_OOP_SCharp_Lab3
                 ocean.Draw(gr);
                 pictureBox1.Image = bmp;
             }
-
         }
 
         private void button1_Click_1(object sender, EventArgs e)
@@ -98,7 +97,6 @@ namespace ULSTU_OOP_SCharp_Lab3
                     }
                 }
             }
-
         }
         private void pictureBox2_Click(object sender, EventArgs e)
         {
@@ -117,6 +115,43 @@ namespace ULSTU_OOP_SCharp_Lab3
             ocean.LevelUp();
             listBox1.SelectedIndex = ocean.getCurrentLevel;
             Draw();
+        }
+
+        private void saveToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (saveFileDialog1.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                if (ocean.SaveData(saveFileDialog1.FileName))
+                {
+                    MessageBox.Show("Сохранение прошло успешно", "",
+                        MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                else
+                {
+                    MessageBox.Show("Не сохранилось", "",
+                        MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+
+        }
+
+        private void loadToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (openFileDialog1.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                if (ocean.LoadData(openFileDialog1.FileName))
+                {
+                    MessageBox.Show("Загрузили", "",
+                        MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                else
+                {
+                    MessageBox.Show("Не загрузили", "",
+                        MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                Draw();
+            }
+
         }
     }
 }
