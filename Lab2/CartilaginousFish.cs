@@ -96,5 +96,6 @@ namespace ULSTU_OOP_SCharp_Lab3
             BodyPattern = color;
         }
 
+        public abstract string getInfo();
     }
 }

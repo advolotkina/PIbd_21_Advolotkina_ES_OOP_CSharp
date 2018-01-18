@@ -82,15 +82,18 @@ namespace ULSTU_OOP_SCharp_Lab3
         public void Draw(Graphics g)
         {
             DrawOcean(g);
-            for(int i = 0; i < countPlaces; i++)
+            int i = 0;
+            foreach(var shark in oceanLevels[currentLevel])
             {
-                var fish = oceanLevels[currentLevel][i];
-                if (fish != null)
-                {
-                    fish.setPosition(15+(int)i/5*placeSizeWidth+5,i%5*placeSizeHeight+15);
-                    fish.draw(g);
-                }
+                shark.setPosition(15 + (int)i / 5 * placeSizeWidth + 5, i % 5 * placeSizeHeight + 15);
+                shark.draw(g);
+                i++;
             }
+        }
+
+        public void Sort()
+        {
+            oceanLevels.Sort();
         }
 
         public bool SaveData(string fileName)
@@ -165,7 +168,7 @@ namespace ULSTU_OOP_SCharp_Lab3
                 }
                 else
                 {
-                    return false;
+                    throw new FileFormatException();
                 }
                 int counter = -1;
                 for(int i = 1; i < strs.Length; ++i)
@@ -180,7 +183,7 @@ namespace ULSTU_OOP_SCharp_Lab3
                         int number = oceanLevels[counter] + shark;
                         if(number == -1)
                         {
-                            return false;
+                            throw new FileFormatException();
                         }
                     } else if (strs[i].Split(':')[0] == "TigerShark")
                     {
@@ -188,7 +191,7 @@ namespace ULSTU_OOP_SCharp_Lab3
                         int number = oceanLevels[counter] + shark;
                         if (number == -1)
                         {
-                            return false;
+                            throw new FileFormatException();
                         }
                     }
                 }
