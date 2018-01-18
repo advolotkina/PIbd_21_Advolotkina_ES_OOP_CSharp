@@ -2,7 +2,7 @@
 using System.Drawing;
 namespace ULSTU_OOP_SCharp_Lab3
 {
-    public class TigerShark : Shark
+    public class TigerShark : Shark, IComparable<TigerShark>, IEquatable<TigerShark>
     {
         private Color dopColor;
         private int humansKilled;
@@ -75,5 +75,63 @@ namespace ULSTU_OOP_SCharp_Lab3
             return MaxNumberOfVictims + ";" + HoursNeededToSleep + ";" + Weight + ";" + BodyPattern.Name + ";" + humansKilled + ";" + dopColor.Name;
 
         }
+
+        public int CompareTo(TigerShark other)
+        {
+            var res = (this is Shark).CompareTo(other is Shark);
+            if (res != 0)
+            {
+                return res;
+            }
+            if (dopColor != other.dopColor)
+            {
+                return dopColor.Name.CompareTo(other.dopColor.Name);
+            }
+            if (HumansKilled != other.HumansKilled)
+            {
+                return HumansKilled.CompareTo(other.HumansKilled);
+            }
+            return 0;
+        }
+
+        public bool Equals(TigerShark other)
+        {
+            var res = (this is Shark).Equals(other is Shark);
+            if (res != false)
+            {
+                return res;
+            }
+            if (dopColor != other.dopColor)
+            {
+                return false;
+            }
+            if (HumansKilled != other.HumansKilled)
+            {
+                return false;
+            }
+            return true;
+        }
+
+        public override bool Equals(object obj)
+        {
+            if(obj == null)
+            {
+                return false;
+            }
+            TigerShark sharkObj = obj as TigerShark;
+            if (sharkObj == null)
+            {
+                return false;
+            }
+            else
+            {
+                return Equals(sharkObj);
+            }
+        }
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
+        }
+
     }
 }
