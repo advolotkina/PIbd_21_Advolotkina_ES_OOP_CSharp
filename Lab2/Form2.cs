@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NLog;
+using System;
 using System.Drawing;
 using System.Windows.Forms;
 
@@ -9,9 +10,12 @@ namespace ULSTU_OOP_SCharp_Lab3
         Ocean ocean;
 
         FormSelectShark form;
+
+        private Logger log;
         public Form2()
         {
             InitializeComponent();
+            log = LogManager.GetCurrentClassLogger();
             ocean = new Ocean(5);
             for (int i = 1; i < 6; i++)
             {
@@ -31,6 +35,7 @@ namespace ULSTU_OOP_SCharp_Lab3
                 ocean.Draw(gr);
                 pictureBox1.Image = bmp;
             }
+
         }
 
         private void button1_Click_1(object sender, EventArgs e)
@@ -38,21 +43,27 @@ namespace ULSTU_OOP_SCharp_Lab3
             form = new FormSelectShark();
             form.AddEvent(AddShark);
             form.Show();
+            log.Info("Вызвана форма добавления акулы");
         }
 
         private void AddShark(IAnimal shark)
         {
             if (shark != null)
             {
-                int place = ocean.PutFishInOcean(shark);
-                if (place > -1)
+                try
                 {
+                    int place = ocean.PutFishInOcean(shark);
                     Draw();
                     MessageBox.Show("Ваше место: " + place);
+
                 }
-                else
+                catch(OceanOverflowExcetion ex)
                 {
-                    MessageBox.Show("Акулу не удалось выпустить");
+                    MessageBox.Show(ex.Message, "Ошибка переполнения", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                catch(Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "Общая ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
         }
@@ -76,27 +87,32 @@ namespace ULSTU_OOP_SCharp_Lab3
 
         private void button3_Click_1(object sender, EventArgs e)
         {
+            
             if (listBox1.SelectedIndex > -1)
             {
-                string level = listBox1.Items[listBox1.SelectedIndex].ToString();
                 if (maskedTextBox1.Text != "")
                 {
-                    IAnimal fish = ocean.GetFishFromOcean(Convert.ToInt32(maskedTextBox1.Text));
-                    if (fish != null)
-                    {
+                    try {
+                        IAnimal fish = ocean.GetFishFromOcean(Convert.ToInt32(maskedTextBox1.Text));
                         Bitmap bmp = new Bitmap(pictureBox2.Width, pictureBox2.Height);
                         Graphics gr = Graphics.FromImage(bmp);
                         fish.setPosition(5, 5);
                         fish.draw(gr);
                         pictureBox2.Image = bmp;
                         Draw();
+                        log.Info("Забрали акулу");
                     }
-                    else
+                    catch(OceanIndexOutOfRangeException ex)
                     {
-                        MessageBox.Show("Извинте, на этом месте нет акулы");
+                        MessageBox.Show(ex.Message, "Неверный номер", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                    catch(Exception ex)
+                    {
+                        MessageBox.Show(ex.Message, "Общая ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
                 }
             }
+
         }
         private void pictureBox2_Click(object sender, EventArgs e)
         {
@@ -107,6 +123,7 @@ namespace ULSTU_OOP_SCharp_Lab3
         {
             ocean.LevelDown();
             listBox1.SelectedIndex = ocean.getCurrentLevel;
+            log.Info("Переход на уровень ниже. Текущий уровень: " + ocean.getCurrentLevel);
             Draw();
         }
 
@@ -114,6 +131,7 @@ namespace ULSTU_OOP_SCharp_Lab3
         {
             ocean.LevelUp();
             listBox1.SelectedIndex = ocean.getCurrentLevel;
+            log.Info("Переход на уровень выше. Текущий уровень: " + ocean.getCurrentLevel);
             Draw();
         }
 
@@ -121,6 +139,7 @@ namespace ULSTU_OOP_SCharp_Lab3
         {
             if (saveFileDialog1.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
+
                 if (ocean.SaveData(saveFileDialog1.FileName))
                 {
                     MessageBox.Show("Сохранение прошло успешно", "",
@@ -139,19 +158,25 @@ namespace ULSTU_OOP_SCharp_Lab3
         {
             if (openFileDialog1.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
-                if (ocean.LoadData(openFileDialog1.FileName))
+                try
                 {
-                    MessageBox.Show("Загрузили", "",
+                    ocean.LoadData(openFileDialog1.FileName);
+                } catch(FileFormatException ex)
+                {
+                    MessageBox.Show(ex.Message, "Неверный формат загружаемого файла");
+                    return;
+                }
+                MessageBox.Show("Загрузили", "",
                         MessageBoxButtons.OK, MessageBoxIcon.Information);
-                }
-                else
-                {
-                    MessageBox.Show("Не загрузили", "",
-                        MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
                 Draw();
             }
 
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            ocean.Sort();
+            Draw();
         }
     }
 }
